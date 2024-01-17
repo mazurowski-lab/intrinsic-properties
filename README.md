@@ -16,7 +16,7 @@ different labels.
 ### Code Usage/Installation
 
 1. Run `pip3 install -r requirements.txt` to install the necessary packages.
-2. Clone `https://github.com/ppope/dimensions` into your main directory.
+2. Run `git clone https://github.com/ppope/dimensions.git` in your main directory.
 
 ### Measure intrinsic properties of your dataset (on GPU)
 
