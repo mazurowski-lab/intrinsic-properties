@@ -2,14 +2,14 @@
 
 #### By [Nicholas Konz](https://nickk124.github.io/) and [Maciej Mazurowski](https://sites.duke.edu/mazurowski/).
 
-[![Intrinsic dimension (left) and label sharpness (right) measured from various natural and medical image datasets.](figures/datadim_and_labelsharpness.png)]
+![Intrinsic dimension (left) and label sharpness (right) measured from various natural and medical image datasets.](figures/datadim_and_labelsharpness.png)
 
 This is the code for our ICLR 2024 paper "The Effect of Intrinsic Dataset Properties on Generalization: Unraveling Learning Differences Between Natural and Medical Images," where we showed how a model's test performance, adversarial robustness, etc., depends on measurable intrinsic properties of its training set. Using this code, you can measure these intrinsic properties of your dataset: 
 1. Label sharpness $\hat{K}_F$, our proposed metric which measures the extent to which images in the dataset can resemble each other while still having
 different labels.
 2. Intrinsic dimension / complexity $d_{\text{data}}$.
 
-[![Test loss scaling of models trained on different datasets with respect to training set intrinsic dimension.](figures/datadim_generalization_scaling.png)]
+![Test loss scaling of models trained on different datasets with respect to training set intrinsic dimension.](figures/datadim_generalization_scaling.png)
 
 ## Quickstart
 ### Code Usage/Installation
