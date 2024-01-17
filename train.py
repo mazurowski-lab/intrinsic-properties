@@ -2,7 +2,6 @@
 train multiple models on multiple datasets
 """
 # imports
-from src.vizutils import *
 from src.utils import *
 from src.dataset import *
 from src.nnutils import *
@@ -77,7 +76,7 @@ for labeling in labelings:
                 checkpoint_path_prev = None
 
                 # load dataset and loader
-                train_batchsize = batch_size_factors[model.__name__] * len(device_ids) * special_batchsize_factor
+                train_batchsize = batch_size_factors[model.__name__] * len(device_ids)
 
                 if dataset_name in train_with_augmentation:
                     train_transform = transforms.Compose([

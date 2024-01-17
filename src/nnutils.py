@@ -93,9 +93,6 @@ class LayerActivationsDataset(Dataset):
     """
     dataset for batch-loading outputs of some layer of a neural network,
     given a dataset of activations (layer outputs) given input to the network.
-    
-    args:
-        TODO
     """
     def __init__(self, activation_data, labels):
         self.activation_data = activation_data

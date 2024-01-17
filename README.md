@@ -2,12 +2,13 @@
 
 #### By [Nicholas Konz](https://nickk124.github.io/) and [Maciej Mazurowski](https://sites.duke.edu/mazurowski/).
 
-![Intrinsic dimension (left) and label sharpness (right) measured from various natural and medical image datasets.](figures/datadim_and_labelsharpness.png)
+<img src='https://github.com/mazurowski-lab/intrinsic-properties/blob/main/figures/teaser.png' width='75%'>
 
-This is the code for our ICLR 2024 paper "The Effect of Intrinsic Dataset Properties on Generalization: Unraveling Learning Differences Between Natural and Medical Images," where we showed how a model's test performance, adversarial robustness, etc., depends on measurable intrinsic properties of its training set. Using this code, you can measure these intrinsic properties of your dataset: 
-1. Label sharpness $\hat{K}_F$, our proposed metric which measures the extent to which images in the dataset can resemble each other while still having
+This is the code for our ICLR 2024 paper "The Effect of Intrinsic Dataset Properties on Generalization: Unraveling Learning Differences Between Natural and Medical Images," where we showed how a model's test performance, adversarial robustness, etc., depends on measurable intrinsic properties of its training set. Using this code, you can measure these intrinsic properties: 
+1. The **label sharpness** $\hat{K}_F$ of your dataset, our proposed metric which measures the extent to which images in the dataset can resemble each other while still having
 different labels.
-2. Intrinsic dimension / complexity $d_{\text{data}}$.
+2. The **intrinsic dimension** $d_{\text{data}}$ of your dataset, i.e., the minimum number of degrees of freedom needed to describe it.
+3. The intrinsic dimension $d_{\text{repr}}$ of the **learned representations** of some layer of a network, given the input dataset.
 
 ![Test loss scaling of models trained on different datasets with respect to training set intrinsic dimension.](figures/datadim_generalization_scaling.png)
 
@@ -20,13 +21,21 @@ different labels.
 ### Measure intrinsic properties of your dataset (on GPU)
 
 ```python
-from datasetproperties import compute_labelsharpness, compute_intrinsicdim
+from datasetproperties import compute_labelsharpness, compute_intrinsic_datadim, compute_intrinsic_reprdim
 
 dataset = torchvision.datasets.CIFAR10(root='data')
 # or any torch.utils.data.Dataset
 
+# compute label sharpness and intrinsic dimension of dataset
 KF = compute_labelsharpness(dataset)
-datadim = compute_intrinsicdim(dataset)
+datadim = compute_intrinsic_datadim(dataset)
+
+# compute intrinsic dimension of dataset representations in some layer of a neural network
+import torchvision.models import resnet18, ResNet18_Weights
+
+model = torchvision.models.resnet18(weights=ResNet18_Weights.IMAGENET1K_V1)
+layer = model.layer4
+reprdim = compute_intrinsic_reprdim(dataset, model, layer)
 ```
 
 ## Reproducing Paper Results
@@ -51,11 +60,4 @@ title={The Effect of Intrinsic Dataset Properties on Generalization: Unraveling 
 author={Konz, Nicholas and Mazurowski, Maciej A},
 booktitle={The Twelfth International Conference on Learning Representations (ICLR)},
 year={2024},
-url={https://openreview.net/forum?id=ixP76Y33y1}
-}
-
-We also provide all code used to reproduce the experiments in our paper:
-1. `train.py`: Train multiple models on the different datasets.
-2. `estimate_dataID_allmodels.py`: Estimate the intrinsic dimension of the training sets of multiple models.
-3. `estimate_reprID_allmodels.py`: Estimate the intrinsic dimension of the learned representations of multiple models, for model layers of choice.
-4. `adv_atk_allmodels.py`: Evaluate the robustness of multiple models to adversarial attack.
+url={https://openreview.net/forum?id=ixP76Y33y1}}

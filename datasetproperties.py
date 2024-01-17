@@ -7,9 +7,23 @@ import numpy as np
 import torch
 from torch.utils.data import DataLoader
 from src.dimensionality import estimate_intrinsic_dim
+from src.nnutils import LayerActivationsDataset
 
-def compute_labelsharpness(dataset, batchsize=500, M=1000, device="cuda"):
-    # ^ M is the number of samples used for the Lipschitz constant estimate (See Sec. 3.2 of the paper)
+def compute_labelsharpness(
+        dataset, 
+        batchsize=500,
+        M=1000, 
+        device="cuda"
+        ):
+    """
+    compute the label sharpness ($\hat{K}_\mathcal{F}$) of a dataset, as defined in Sec. 3.2 of the paper.
+
+    Args:
+        dataset: torch.utils.data.Dataset object
+        batchsize: batchsize to use for computing the Lipschitz constant estimate
+        M: number of samples to use for computing the Lipschitz constant estimate (See Sec. 3.2 of the paper)
+        device: device to use for computing the Lipschitz constant estimate
+    """
     shuffle = True
     dataloader1 = DataLoader(dataset, batch_size=batchsize, shuffle=shuffle)
     dataloader2 = DataLoader(dataset, batch_size=batchsize, shuffle=shuffle)
@@ -36,6 +50,91 @@ def compute_labelsharpness(dataset, batchsize=500, M=1000, device="cuda"):
     return Kmax 
 
 
-def compute_intrinsicdim(dataset, estimator='mle', batchsize=1000, hyperparam_k=20):
+def compute_intrinsic_datadim(
+        dataset, 
+        estimator='mle', 
+        estimator_batchsize=1000, 
+        hyperparam_k=20, 
+        dataset_name="dataset"
+        ):
+    """
+    compute the intrinsic dimension of a dataset, as defined in Sec. 3.1 of the paper.
+
+    Args:
+        dataset: torch.utils.data.Dataset object
+        estimator: estimator to use for computing the intrinsic dimension. Must be one of 'mle', 'geomle', 'twonn'
+        estimator_batchsize: batchsize to use for computing the intrinsic dimension estimate
+        hyperparam_k: hyperparameter k to use for computing the intrinsic dimension (See Sec. 3.1 of the paper)
+        dataset_name: name of the dataset, used for saving the intrinsic dimension estimate
+    """
     assert estimator in ['mle', 'geomle', 'twonn'], "estimator must be one of 'mle', 'geomle', 'twonn'"
-    return estimate_intrinsic_dim(dataset, "dataset", estimator, batchsize=batchsize, hyperparam_k=hyperparam_k)
+    return estimate_intrinsic_dim(dataset, dataset_name, estimator, batchsize=estimator_batchsize, hyperparam_k=hyperparam_k)
+
+def compute_intrinsic_reprdim(
+        dataset, 
+        model, 
+        layer, 
+        estimator='mle', 
+        batchsize=64,
+        estimator_batchsize=1000,
+        hyperparam_k=20, 
+        dataset_name="dataset", 
+        device="cuda"
+        ):
+    """
+    compute the intrinsic dimension of a neural network's learned representations of a dataset, in one of it's layers.
+
+    Args:
+        dataset: torch.utils.data.Dataset object
+        model: torch.nn.Module object; the neural network to use for computing the intrinsic dimension
+        layer: torch.nn.Module of the layer to use for computing the intrinsic dimension, an attribute of model (e.g. model.layer1 for resnet18)
+        estimator: estimator to use for computing the intrinsic dimension. Must be one of 'mle', 'geomle', 'twonn'
+        batchsize: batchsize to use for computing the neural network's activations given input data
+        estimator_batchsize: batchsize to use for computing the intrinsic dimension estimate
+        hyperparam_k: hyperparameter k to use for computing the intrinsic dimension (See Sec. 3.1 of the paper)
+        dataset_name: name of the dataset, used for saving the intrinsic dimension estimate
+        device: device to use for computing the neural network's activations given input data
+    """
+    assert estimator in ['mle', 'geomle', 'twonn'], "estimator must be one of 'mle', 'geomle', 'twonn'"
+
+    input_dataloader = DataLoader(dataset, batch_size=batchsize)
+
+    # register hook to save activations
+    activations = []
+    def hook(model, input, output):
+        activations.append(output.detach().cpu())
+    handle = layer.register_forward_hook(hook)
+
+    # compute activations by passing data through net
+    for batch_idx, (x_in, _) in tqdm(enumerate(input_dataloader), 
+                                        desc='completing forward passes...',
+                                        total=len(dataset)//batchsize
+                                    ):
+        x_in = x_in.to(device)
+        output = model(x_in) 
+        # memory management/get things off GPU
+        del output
+
+    activation_data = torch.cat(activations)
+
+    handle.remove() # remove hook so earlier layers aren't tracked
+    
+    activation_data = activation_data.to('cpu')
+    # memory management/get things off GPU
+
+    # load activations into dataset
+    lbls = [l[1] for l in dataset.dataset.labels]
+    activation_dataset = LayerActivationsDataset(activation_data, lbls)
+
+
+    # compute intrinsic dim
+    try:
+        layer_activations_intrinsic_dim = estimate_intrinsic_dim(activation_dataset, 
+                                                            dataset_name, estimator, 
+                                                            batchsize=estimator_batchsize, hyperparam_k=hyperparam_k)
+        return layer_activations_intrinsic_dim
+
+    except (ValueError, OverflowError) as e:
+        # NaN or inf result for ID
+        print(e)
+        return np.nan
