@@ -57,8 +57,20 @@ label sharpness = 0.844
 data intrinsic dim = 20
 representation intrinsic dim = 25
 ```
+## Citation
 
-## Reproducing Paper Results
+Please cite our ICLR 2024 paper if you use our code or reference our work (published version citation forthcoming):
+```bib
+@inproceedings{konz2024intrinsicproperties,
+title={The Effect of Intrinsic Dataset Properties on Generalization: Unraveling Learning Differences Between Natural and Medical Images},
+author={Konz, Nicholas and Mazurowski, Maciej A},
+booktitle={The Twelfth International Conference on Learning Representations (ICLR)},
+year={2024},
+url={https://openreview.net/forum?id=ixP76Y33y1}
+}
+```
+
+## Reproducing Our Paper's Results
 
 ### Step 1: Dataset Setup
 - **Natural image datasets:** the natural image datasets used in our paper and code (ImageNet, CIFAR-10, SVHN and MNIST) are just the [torchvision Datasets](https://pytorch.org/vision/0.16/datasets.html).
@@ -72,14 +84,3 @@ We provide all code used to reproduce the experiments in our paper:
 2. `estimate_datadim_allmodels.py`: run to estimate the intrinsic dimension of the training sets of multiple models.
 3. `estimate_reprdim_allmodels.py`: run to estimate the intrinsic dimension of the learned representations of multiple models, for model layers of choice.
 4. `adv_atk_allmodels.py`: run to evaluate the robustness of multiple models to adversarial attack.
-
-## Citation
-
-Please cite our ICLR 2024 paper if you use our code or reference our work (published version citation forthcoming):
-```bib
-@inproceedings{konz2024intrinsicproperties,
-title={The Effect of Intrinsic Dataset Properties on Generalization: Unraveling Learning Differences Between Natural and Medical Images},
-author={Konz, Nicholas and Mazurowski, Maciej A},
-booktitle={The Twelfth International Conference on Learning Representations (ICLR)},
-year={2024},
-url={https://openreview.net/forum?id=ixP76Y33y1}}
