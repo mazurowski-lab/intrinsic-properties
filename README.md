@@ -1,4 +1,4 @@
-# intrinsic-properties
+# The Effect of Intrinsic Dataset Properties on Generalization (ICLR 2024)
 
 #### By [Nicholas Konz](https://nickk124.github.io/) and [Maciej Mazurowski](https://sites.duke.edu/mazurowski/).
 
