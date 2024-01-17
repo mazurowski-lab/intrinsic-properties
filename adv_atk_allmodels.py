@@ -10,7 +10,6 @@ from src.adversarial_utils import *
 import os
 import random
 from tqdm import tqdm
-import datetime
 import matplotlib.pyplot as plt
 
 # torch
