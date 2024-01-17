@@ -34,6 +34,9 @@ def compute_labelsharpness(
 
     makelogdir()
 
+    # deal with multiclass version instead of binary
+    multiclass = not all([s[1] in [0, 1] for s in enumerate(dataset)])
+
     dataset_sampled = Subset(dataset, sample(list(range(len(dataset))), M))
 
     shuffle = True
@@ -51,7 +54,14 @@ def compute_labelsharpness(
             y1 = y1.to(device)
             y2 = y2.to(device)
 
-            K = torch.abs(y1.float() - y2.float()) / torch.norm(x1.float() - x2.float(), p=2, dim=(1, 2, 3))
+            if multiclass:
+                # multiclass version
+                numerator = (y1 == y2).float()
+            else:
+                # default binary version
+                numerator = torch.abs(y1.float() - y2.float())
+
+            K = numerator / torch.norm(x1.float() - x2.float(), p=2, dim=(1, 2, 3))
             # filter out where x1 = x2
             K = K[~K.isnan()]
             K = K.tolist()

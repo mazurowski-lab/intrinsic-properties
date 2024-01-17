@@ -58,6 +58,10 @@ data intrinsic dim = 19
 representation intrinsic dim = 24
 ```
 
+#### A few notes about label sharpness
+1. The label sharpness $\hat{K}_F$ was formulated under the binary classification scenario, where data is either labeled with `0` or `1`. However, it could be extended to the multi-class scenario by simply replacing the `|y_j-y_k|` term in the numberator of Eq. 1 in the paper with the indicator function `1_{y_j=y_k}`. This is currently automatically done in our code.
+2. When comparing the label sharpness $\hat{K}_F$ of different datasets, use the same image resolution, channel count and normalization range for all of them. As shown in our paper, $\hat{K}_F$ is invariant to changes in the transformations besides all datasets’ $\hat{K}_F$ values being multiplied by the same positive constant; i.e., the relative ranking of the $\hat{K}_F$ of each dataset stays the same with respect to such transformations, **as long as they are kept the same for all datasets.**
+
 ## Reproducing Paper Results
 
 ### Dataset Setup
