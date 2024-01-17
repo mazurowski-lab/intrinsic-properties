@@ -4,19 +4,19 @@
 
 <img src='https://github.com/mazurowski-lab/intrinsic-properties/blob/main/figures/teaser.png' width='75%'>
 
-This is the code for our ICLR 2024 paper "The Effect of Intrinsic Dataset Properties on Generalization: Unraveling Learning Differences Between Natural and Medical Images," where we showed how a model's test performance, adversarial robustness, etc., depends on measurable intrinsic properties of its training set. Using this code, you can measure these intrinsic properties: 
+This is the code for our [ICLR 2024 paper](https://openreview.net/forum?id=ixP76Y33y1&noteId=1RqgppPlj0) "The Effect of Intrinsic Dataset Properties on Generalization: Unraveling Learning Differences Between Natural and Medical Images". Our paper shows how a neural network's generalization ability (test performance), adversarial robustness, etc., depends on measurable intrinsic properties of its training set, which we find can vary noticeably between imaging domains (e.g., natural image vs. medical images). 
+
+Using this code, you can measure these intrinsic properties of your dataset: 
 1. The **label sharpness** $\hat{K}_F$ of your dataset, our proposed metric which measures the extent to which images in the dataset can resemble each other while still having
 different labels.
 2. The **intrinsic dimension** $d_{\text{data}}$ of your dataset, i.e., the minimum number of degrees of freedom needed to describe it.
 3. The intrinsic dimension $d_{\text{repr}}$ of the **learned representations** of some layer of a network, given the input dataset.
 
-![Test loss scaling of models trained on different datasets with respect to training set intrinsic dimension.](figures/datadim_generalization_scaling.png)
-
 ## Quickstart
 ### Code Usage/Installation
 
 1. Run `pip3 install -r requirements.txt` to install the necessary packages.
-2. Clone `https://github.com/ppope/dimensions` into your main directory.
+2. Run `git clone https://github.com/ppope/dimensions.git` in your main directory.
 
 ### Measure intrinsic properties of your dataset (on GPU)
 
@@ -37,7 +37,6 @@ model = torchvision.models.resnet18(weights=ResNet18_Weights.IMAGENET1K_V1)
 layer = model.layer4
 reprdim = compute_intrinsic_reprdim(dataset, model, layer)
 ```
-
 ## Reproducing Paper Results
 
 ### Dataset Setup
