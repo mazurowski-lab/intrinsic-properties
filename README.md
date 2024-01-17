@@ -84,4 +84,21 @@ title={The Effect of Intrinsic Dataset Properties on Generalization: Unraveling 
 author={Konz, Nicholas and Mazurowski, Maciej A},
 booktitle={The Twelfth International Conference on Learning Representations (ICLR)},
 year={2024},
-url={https://openreview.net/forum?id=ixP76Y33y1}}
+url={https://openreview.net/forum?id=ixP76Y33y1}
+}
+```
+
+## Reproducing Our Paper's Results
+
+### Step 1: Dataset Setup
+- **Natural image datasets:** the natural image datasets used in our paper and code (ImageNet, CIFAR-10, SVHN and MNIST) are just the [torchvision Datasets](https://pytorch.org/vision/0.16/datasets.html).
+
+- **Medical image datasets:** The medical image datasets are a bit more complicated to install, but step-by-step instructions can be found in step (1) of [the tutorial for our previous paper](https://github.com/mazurowski-lab/radiologyintrinsicmanifolds/blob/main/reproducibility_tutorial.md).
+
+### Step 2: Code Usage
+
+We provide all code used to reproduce the experiments in our paper:
+1. `train.py`: run to train multiple models on the different datasets.
+2. `estimate_datadim_allmodels.py`: run to estimate the intrinsic dimension of the training sets of multiple models.
+3. `estimate_reprdim_allmodels.py`: run to estimate the intrinsic dimension of the learned representations of multiple models, for model layers of choice.
+4. `adv_atk_allmodels.py`: run to evaluate the robustness of multiple models to adversarial attack.
