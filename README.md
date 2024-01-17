@@ -14,29 +14,50 @@ different labels.
 
 ## Quickstart
 ### Code Usage/Installation
-
-1. Run `pip3 install -r requirements.txt` to install the necessary packages.
-2. Run `git clone https://github.com/ppope/dimensions.git` in your main directory.
+Run the following commands in the main directory:
+```bash
+pip3 install -r requirements.txt
+git clone https://github.com/ppope/dimensions.git
+cp utils/dimensions_init_fix.py dimensions/estimators/__init__.py
+```
 
 ### Measure intrinsic properties of your dataset (on GPU)
 
 ```python
 from datasetproperties import compute_labelsharpness, compute_intrinsic_datadim, compute_intrinsic_reprdim
 
-dataset = torchvision.datasets.CIFAR10(root='data')
-# or any torch.utils.data.Dataset
+from torchvision.datasets import CIFAR10
+from torchvision.transforms import ToTensor
+from torchvision.models import resnet18, ResNet18_Weights
+from torch.utils.data import Subset
+from random import sample
+
+# first, load dataset
+dataset = CIFAR10(root='data', download=True, transform=ToTensor())
+dataset = Subset(dataset, sample(list(range(len(dataset))), 5000))
+# ^ or any torch.utils.data.Dataset
 
 # compute label sharpness and intrinsic dimension of dataset
 KF = compute_labelsharpness(dataset)
 datadim = compute_intrinsic_datadim(dataset)
 
 # compute intrinsic dimension of dataset representations in some layer of a neural network
-import torchvision.models import resnet18, ResNet18_Weights
-
-model = torchvision.models.resnet18(weights=ResNet18_Weights.IMAGENET1K_V1)
+model = resnet18(weights=ResNet18_Weights.IMAGENET1K_V1).to("cuda")
 layer = model.layer4
 reprdim = compute_intrinsic_reprdim(dataset, model, layer)
+
+print("label sharpness = {}".format(round(KF, 3)))
+print("data intrinsic dim = {}".format(int(datadim)))
+print("representation intrinsic dim = {}".format(int(reprdim)))
 ```
+
+Output:
+```
+label sharpness = 0.844
+data intrinsic dim = 20
+representation intrinsic dim = 25
+```
+
 ## Reproducing Paper Results
 
 ### Dataset Setup

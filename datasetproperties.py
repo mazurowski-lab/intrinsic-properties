@@ -2,12 +2,19 @@
 functions for computing main intrinsic properties of a dataset
 """
 from tqdm import tqdm
+from random import sample
+import os
 
 import numpy as np
 import torch
-from torch.utils.data import DataLoader
+from torch.utils.data import DataLoader, Subset
 from src.dimensionality import estimate_intrinsic_dim
 from src.nnutils import LayerActivationsDataset
+
+def makelogdir():
+    if not os.path.exists("logs"):
+        os.makedirs("logs")
+    return
 
 def compute_labelsharpness(
         dataset, 
@@ -24,9 +31,14 @@ def compute_labelsharpness(
         M: number of samples to use for computing the Lipschitz constant estimate (See Sec. 3.2 of the paper)
         device: device to use for computing the Lipschitz constant estimate
     """
+
+    makelogdir()
+
+    dataset_sampled = Subset(dataset, sample(list(range(len(dataset))), M))
+
     shuffle = True
-    dataloader1 = DataLoader(dataset, batch_size=batchsize, shuffle=shuffle)
-    dataloader2 = DataLoader(dataset, batch_size=batchsize, shuffle=shuffle)
+    dataloader1 = DataLoader(dataset_sampled, batch_size=batchsize, shuffle=shuffle)
+    dataloader2 = DataLoader(dataset_sampled, batch_size=batchsize, shuffle=shuffle)
 
     Ks = []
 
@@ -68,6 +80,9 @@ def compute_intrinsic_datadim(
         dataset_name: name of the dataset, used for saving the intrinsic dimension estimate
     """
     assert estimator in ['mle', 'geomle', 'twonn'], "estimator must be one of 'mle', 'geomle', 'twonn'"
+
+    makelogdir()
+
     return estimate_intrinsic_dim(dataset, dataset_name, estimator, batchsize=estimator_batchsize, hyperparam_k=hyperparam_k)
 
 def compute_intrinsic_reprdim(
@@ -75,7 +90,7 @@ def compute_intrinsic_reprdim(
         model, 
         layer, 
         estimator='mle', 
-        batchsize=64,
+        batchsize=256,
         estimator_batchsize=1000,
         hyperparam_k=20, 
         dataset_name="dataset", 
@@ -96,6 +111,8 @@ def compute_intrinsic_reprdim(
         device: device to use for computing the neural network's activations given input data
     """
     assert estimator in ['mle', 'geomle', 'twonn'], "estimator must be one of 'mle', 'geomle', 'twonn'"
+
+    makelogdir()
 
     input_dataloader = DataLoader(dataset, batch_size=batchsize)
 
@@ -123,7 +140,7 @@ def compute_intrinsic_reprdim(
     # memory management/get things off GPU
 
     # load activations into dataset
-    lbls = [l[1] for l in dataset.dataset.labels]
+    lbls = [dataset[i][1] for i in range(len(dataset))]
     activation_dataset = LayerActivationsDataset(activation_data, lbls)
 
 
