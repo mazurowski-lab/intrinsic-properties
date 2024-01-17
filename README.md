@@ -30,11 +30,11 @@ from torchvision.datasets import CIFAR10
 from torchvision.transforms import ToTensor
 from torchvision.models import resnet18, ResNet18_Weights
 from torch.utils.data import Subset
-from random import sample
 
 # first, load dataset
 dataset = CIFAR10(root='data', download=True, transform=ToTensor())
-dataset = Subset(dataset, sample(list(range(len(dataset))), 5000))
+classes = [0, 1]
+dataset = Subset(dataset, [i for i, s in enumerate(dataset) if s[1] in classes])
 # ^ or any torch.utils.data.Dataset
 
 # compute label sharpness and intrinsic dimension of dataset
@@ -53,9 +53,9 @@ print("representation intrinsic dim = {}".format(int(reprdim)))
 
 Output:
 ```
-label sharpness = 0.844
-data intrinsic dim = 20
-representation intrinsic dim = 25
+label sharpness = 0.106
+data intrinsic dim = 19
+representation intrinsic dim = 24
 ```
 
 ## Reproducing Paper Results
