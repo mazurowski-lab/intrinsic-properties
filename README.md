@@ -2,14 +2,12 @@
 
 #### By [Nicholas Konz](https://nickk124.github.io/) and [Maciej Mazurowski](https://sites.duke.edu/mazurowski/).
 
-![Intrinsic dimension (left) and label sharpness (right) measured from various natural and medical image datasets.](figures/datadim_and_labelsharpness.png)
+<img src='https://github.com/mazurowski-lab/intrinsic-properties/blob/main/figures/teaser.png' width='75%'>
 
-This is the code for our ICLR 2024 paper "The Effect of Intrinsic Dataset Properties on Generalization: Unraveling Learning Differences Between Natural and Medical Images," where we showed how a model's test performance, adversarial robustness, etc., depends on measurable intrinsic properties of its training set. Using this code, you can measure these intrinsic properties of your dataset: 
+This is the code for our ICLR 2024 paper "The Effect of Intrinsic Dataset Properties on Generalization: Unraveling Learning Differences Between Natural and Medical Images," where we show how a neural network's generalization ability (test performance), adversarial robustness, etc., depends on measurable intrinsic properties of its training set. Using this code, you can measure these intrinsic properties of your dataset: 
 1. Label sharpness $\hat{K}_F$, our proposed metric which measures the extent to which images in the dataset can resemble each other while still having
 different labels.
-2. Intrinsic dimension / complexity $d_{\text{data}}$.
-
-![Test loss scaling of models trained on different datasets with respect to training set intrinsic dimension.](figures/datadim_generalization_scaling.png)
+2. Intrinsic dimension $d_{\text{data}}$, i.e. minimal nonlinear degrees of freedom.
 
 ## Quickstart
 ### Code Usage/Installation
@@ -51,11 +49,4 @@ title={The Effect of Intrinsic Dataset Properties on Generalization: Unraveling 
 author={Konz, Nicholas and Mazurowski, Maciej A},
 booktitle={The Twelfth International Conference on Learning Representations (ICLR)},
 year={2024},
-url={https://openreview.net/forum?id=ixP76Y33y1}
-}
-
-We also provide all code used to reproduce the experiments in our paper:
-1. `train.py`: Train multiple models on the different datasets.
-2. `estimate_dataID_allmodels.py`: Estimate the intrinsic dimension of the training sets of multiple models.
-3. `estimate_reprID_allmodels.py`: Estimate the intrinsic dimension of the learned representations of multiple models, for model layers of choice.
-4. `adv_atk_allmodels.py`: Evaluate the robustness of multiple models to adversarial attack.
+url={https://openreview.net/forum?id=ixP76Y33y1}}
