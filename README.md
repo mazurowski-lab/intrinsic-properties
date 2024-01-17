@@ -62,19 +62,6 @@ representation intrinsic dim = 24
 1. The label sharpness $\hat{K}_F$ was formulated under the binary classification scenario, where data is either labeled with `0` or `1`. However, it could be extended to the multi-class scenario by simply replacing the `|y_j-y_k|` term in the numberator of Eq. 1 in the paper with the indicator function `1_{y_j=y_k}`. This is currently automatically done in our code.
 2. When comparing the label sharpness $\hat{K}_F$ of different datasets, use the same image resolution, channel count and normalization range for all of them. As shown in our paper, $\hat{K}_F$ is invariant to changes in the transformations besides all datasets’ $\hat{K}_F$ values being multiplied by the same positive constant; i.e., the relative ranking of the $\hat{K}_F$ of each dataset stays the same with respect to such transformations, **as long as they are kept the same for all datasets.**
 
-## Reproducing Paper Results
-
-### Dataset Setup
-**Natural image datasets:** the natural image datasets used in our paper and code (ImageNet, CIFAR-10, SVHN and MNIST) are just the [torchvision Datasets](https://pytorch.org/vision/0.16/datasets.html).
-
-**Medical image datasets:** The medical image datasets are a bit more complicated to install, but step-by-step instructions can be found in step (1) of [the tutorial for our previous paper](https://github.com/mazurowski-lab/radiologyintrinsicmanifolds/blob/main/reproducibility_tutorial.md).
-
-We provide all code used to reproduce the experiments in our paper:
-1. `train.py`: run to train multiple models on the different datasets.
-2. `estimate_datadim_allmodels.py`: run to estimate the intrinsic dimension of the training sets of multiple models.
-3. `estimate_reprdim_allmodels.py`: run to estimate the intrinsic dimension of the learned representations of multiple models, for model layers of choice.
-4. `adv_atk_allmodels.py`: run to evaluate the robustness of multiple models to adversarial attack.
-
 ## Citation
 
 Please cite our ICLR 2024 paper if you use our code or reference our work (published version citation forthcoming):
