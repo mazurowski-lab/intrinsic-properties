@@ -4,9 +4,11 @@
 
 [![Intrinsic dimension (left) and label sharpness (right) measured from various natural and medical image datasets.](figures/datadim_and_labelsharpness.png)]
 
-Code for our ICLR 2024 paper "The Effect of Intrinsic Dataset Properties on Generalization: Unraveling Learning Differences Between Natural and Medical Images," where we show how a model's test performance, adversarial robustness, etc., depends on measurable intrinsic properties of its training set. Using this code, you can 
-1. measure intrinsic properties of your dataset: label sharpness $\hat{K}_F$ or intrinsic dimension $d_{\text{data}}$,
-2. measure the intrinsic dimension of your model's learned representations $d_{\text{repr}}$ in some layer
+This is the code for our ICLR 2024 paper "The Effect of Intrinsic Dataset Properties on Generalization: Unraveling Learning Differences Between Natural and Medical Images," where we showed how a model's test performance, adversarial robustness, etc., depends on measurable intrinsic properties of its training set. Using this code, you can measure these intrinsic properties of your dataset: 
+1. Label sharpness $\hat{K}_F$, our proposed metric which measures the extent to which images in the dataset can resemble each other while still having
+different labels.
+2. Intrinsic dimension / complexity $d_{\text{data}}$.
+3. Intrinsic dimension of a model's learned representations $d_{\text{repr}}$ of the data in some layer.
 
 We also provide all code used to reproduce the experiments in our paper:
 1. `train.py`: Train multiple models on the different datasets.
