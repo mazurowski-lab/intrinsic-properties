@@ -2,6 +2,8 @@
 
 #### By [Nicholas Konz](https://nickk124.github.io/) and [Maciej Mazurowski](https://sites.duke.edu/mazurowski/).
 
+[![arXiv Paper](https://img.shields.io/badge/arXiv-2401.08865-orange.svg?style=flat)](https://arxiv.org/abs/2401.08865)
+
 <img src='https://github.com/mazurowski-lab/intrinsic-properties/blob/main/figures/teaser.png' width='100%'>
 
 This is the code for our [ICLR 2024 paper](https://arxiv.org/abs/2401.08865) "The Effect of Intrinsic Dataset Properties on Generalization: Unraveling Learning Differences Between Natural and Medical Images". Our paper shows how a neural network's generalization ability (test performance), adversarial robustness, etc., depends on measurable intrinsic properties of its training set, which we find can vary noticeably between imaging domains (e.g., natural image vs. medical images). 
