@@ -63,7 +63,7 @@ def compute_labelsharpness(
 
             K = numerator / torch.norm(x1.float() - x2.float(), p=2, dim=(1, 2, 3))
             # filter out where x1 = x2
-            K = K[~K.isnan()]
+            K = K[~torch.isinf(K) & ~torch.isnan(K)]
             K = K.tolist()
             Ks += K
 
