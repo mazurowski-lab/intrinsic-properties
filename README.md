@@ -4,6 +4,15 @@
 
 [![arXiv Paper](https://img.shields.io/badge/arXiv-2401.08865-orange.svg?style=flat)](https://arxiv.org/abs/2401.08865)
 
+
+
+### *Check out our related papers!*
+- [Pre-processing and Compression: Understanding Hidden Representation Refinement Across Imaging Domains via Intrinsic Dimension
+](https://arxiv.org/abs/2408.08381) (arXiv 2024)
+- [The Intrinsic Manifolds of Radiological Images and their Role in Deep Learning](https://arxiv.org/abs/2207.02797) (MICCAI 2022)
+
+
+
 <img src='https://github.com/mazurowski-lab/intrinsic-properties/blob/main/figures/teaser.png' width='100%'>
 
 This is the code for our [ICLR 2024 paper](https://arxiv.org/abs/2401.08865) "The Effect of Intrinsic Dataset Properties on Generalization: Unraveling Learning Differences Between Natural and Medical Images". Our paper shows how a neural network's generalization ability (test performance), adversarial robustness, etc., depends on measurable intrinsic properties of its training set, which we find can vary noticeably between imaging domains (e.g., natural image vs. medical images). Also check out our [poster](https://nickk124.github.io/assets/pdf/intrinsicproperties_iclr2024.pdf) for more info.
