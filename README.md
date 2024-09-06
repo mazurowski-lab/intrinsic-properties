@@ -15,7 +15,7 @@
 
 <img src='https://github.com/mazurowski-lab/intrinsic-properties/blob/main/figures/teaser.png' width='100%'>
 
-This is the code for our [ICLR 2024 paper](https://arxiv.org/abs/2401.08865) "The Effect of Intrinsic Dataset Properties on Generalization: Unraveling Learning Differences Between Natural and Medical Images". Our paper shows how a neural network's generalization ability (test performance), adversarial robustness, etc., depends on measurable intrinsic properties of its training set, which we find can vary noticeably between imaging domains (e.g., natural image vs. medical images). Also check out our [poster](https://nickk124.github.io/assets/pdf/intrinsicproperties_iclr2024.pdf) for more info.
+This is the code for our [ICLR 2024 paper](https://arxiv.org/abs/2401.08865) "The Effect of Intrinsic Dataset Properties on Generalization: Unraveling Learning Differences Between Natural and Medical Images". Our paper shows how a neural network's generalization ability (test performance), adversarial robustness, etc., depends on measurable intrinsic properties of its training set, which we find can vary noticeably between imaging domains (e.g., natural images vs. medical images). Also check out our [poster](https://nickk124.github.io/assets/pdf/intrinsicproperties_iclr2024.pdf) for more info.
 
 Using this code, you can measure these intrinsic properties of your dataset: 
 1. The **label sharpness** $\hat{K}_F$ of your dataset, our proposed metric which measures the extent to which images in the dataset can resemble each other while still having
