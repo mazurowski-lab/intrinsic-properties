@@ -38,7 +38,7 @@ url={https://openreview.net/forum?id=ixP76Y33y1}
 
 ## Quickstart
 ### Code Usage/Installation
-Run the following commands in the main directory:
+Clone this repository (run the command `git clone https://github.com/mazurowski-lab/intrinsic-properties.git`), then run the following commands in the main directory:
 ```bash
 pip3 install -r requirements.txt
 git clone https://github.com/ppope/dimensions.git
